@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Narainrit Karuna — Researcher</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:          #f4f4f4;
+    --surface:     #ffffff;
+    --ink:         #1c1c1c;
+    --ink-mid:     #444444;
+    --ink-light:   #888888;
+    --accent:      #c0392b;
+    --accent-dark: #96261f;
+    --accent-pale: #f9e9e8;
+    --border:      #dedede;
+    --nav-h:       66px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.7; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; padding: 0 52px;
+    z-index: 1000; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+    font-weight: 600; letter-spacing: 0.03em; color: var(--ink);
+    background: none; border: none; cursor: pointer; padding: 0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .nav-links { display: flex; gap: 34px; list-style: none; }
+  .nav-links button {
+    font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-light);
+    background: none; border: none; border-bottom: 2px solid transparent;
+    padding: 4px 0; cursor: pointer; transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-links button:hover { color: var(--ink); }
+  .nav-links button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── PAGES ── */
+  .page { display: none; min-height: 100vh; padding-top: var(--nav-h); }
+  .page.active { display: block; animation: fadeUp 0.4s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── HERO ── */
+  .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; min-height: calc(100vh - var(--nav-h)); }
+  .hero-left { padding: 80px 60px 80px 80px; display: flex; flex-direction: column; justify-content: center; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 22px;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--accent); }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5.5vw, 4.8rem);
+    font-weight: 300; line-height: 1.05; color: var(--ink); margin-bottom: 6px;
+  }
+  .hero-name em { font-style: italic; color: var(--accent); }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+    font-weight: 300; color: var(--ink-light); margin-bottom: 36px;
+  }
+
+  .affiliation-tags { display: flex; flex-direction: column; gap: 8px; margin-bottom: 36px; }
+  .affiliation-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 8px 14px; font-size: 0.77rem; color: var(--ink-light);
+    border-radius: 3px; width: fit-content; transition: border-color 0.2s;
+  }
+  .affiliation-tag:hover { border-color: var(--accent); }
+  .affil-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .affiliation-tag strong { color: var(--ink-mid); font-weight: 500; }
+
+  .hero-bio { max-width: 460px; color: var(--ink-light); font-size: 0.93rem; line-height: 1.9; margin-bottom: 52px; }
+
+  .hero-stats {
+    display: flex; width: fit-content;
+    border: 1px solid var(--border); background: var(--surface);
+    overflow: hidden; border-radius: 3px;
+  }
+  .stat-item { padding: 18px 28px; border-right: 1px solid var(--border); }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 600; color: var(--ink); line-height: 1; }
+  .stat-num.red { color: var(--accent); }
+  .stat-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-top: 5px; }
+
+  .hero-right {
+    background: var(--ink); position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-right::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 60%, rgba(192,57,43,0.22) 0%, transparent 65%); }
+  .hero-right::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+  .hero-photo-placeholder {
+    width: 240px; height: 300px; border: 1px solid rgba(255,255,255,0.1);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.25); font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; gap: 14px; position: relative; z-index: 1;
+  }
+
+  /* ── SECTION ── */
+  .section-wrap { max-width: 920px; margin: 0 auto; padding: 80px 40px; }
+  .section-header { margin-bottom: 56px; }
+  .section-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  .section-eyebrow::before { content: ''; display: block; width: 20px; height: 1.5px; background: var(--accent); }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 300; line-height: 1.15; color: var(--ink); }
+  .divider { width: 36px; height: 2px; background: var(--accent); margin-top: 18px; }
+
+  /* ── RESEARCH TAGS ── */
+  .research-areas { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 44px; }
+  .research-tag {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 7px 16px; font-size: 0.76rem; letter-spacing: 0.05em;
+    color: var(--ink-mid); border-radius: 3px; transition: all 0.2s; cursor: default;
+  }
+  .research-tag:hover { background: var(--accent-pale); border-color: var(--accent); color: var(--accent); }
+
+  /* ── SCHOLAR BAR ── */
+  .scholar-bar {
+    display: flex; margin-bottom: 12px;
+    border: 1px solid var(--border); border-top: 3px solid var(--accent);
+    background: var(--surface); border-radius: 3px; overflow: hidden;
+  }
+  .scholar-stat { flex: 1; padding: 16px 20px; text-align: center; border-right: 1px solid var(--border); }
+  .scholar-stat:last-child { border-right: none; }
+  .scholar-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--ink); line-height: 1; }
+  .scholar-stat-label { font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-top: 4px; }
+  .scholar-updated { font-size: 0.72rem; color: var(--ink-light); margin-bottom: 32px; font-style: italic; }
+
+  /* ── SCHOLAR LINK BUTTON ── */
+  .scholar-link-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+  }
+  .scholar-source-note {
+    font-size: 0.76rem; color: var(--ink-light);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .scholar-source-note::before {
+    content: ''; display: inline-block; width: 8px; height: 8px;
+    border-radius: 50%; background: #4285f4; flex-shrink: 0;
+  }
+  .btn-scholar {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid #4285f4;
+    padding: 9px 18px; border-radius: 3px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.76rem;
+    font-weight: 500; letter-spacing: 0.06em; color: var(--ink-mid);
+    text-decoration: none; transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-scholar:hover {
+    background: #f0f4ff; border-color: #4285f4;
+    color: #1a73e8; box-shadow: 0 2px 8px rgba(66,133,244,0.15);
+  }
+  .btn-scholar svg { flex-shrink: 0; }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 32px 28px; border-radius: 3px; transition: all 0.2s; border-top: 3px solid transparent;
+  }
+  .project-card:hover { border-top-color: var(--accent); box-shadow: 0 4px 20px rgba(0,0,0,0.06); transform: translateY(-2px); }
+   /* NEW — image fits inside card */
+  .project-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    flex-shrink: 0;
+  }
+  
+  /* Padding now applied per-element, not on the card itself */
+  .project-card .project-num,
+  .project-card .project-title,
+  .project-card .project-desc,
+  .project-card .project-status {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .project-card .project-num   { padding-top: 28px; }
+  .project-card .project-status { padding-bottom: 28px; }
+  .project-card .project-num:first-child { padding-top: 32px; }
+ 
+  .project-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--border); font-weight: 300; line-height: 1; margin-bottom: 18px; }
+  .project-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+  .project-desc { font-size: 0.84rem; color: var(--ink-light); line-height: 1.78; margin-bottom: 18px; }
+  .project-status { display: inline-block; font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+  .project-status.done { color: var(--ink-light); }
+
+  /* ── CONFERENCES ── */
+  .conf-list { display: flex; flex-direction: column; }
+  .conf-item { display: grid; grid-template-columns: 110px 1fr; gap: 0 40px; padding: 30px 0; border-bottom: 1px solid var(--border); align-items: start; }
+  .conf-item:first-child { border-top: 1px solid var(--border); }
+  .conf-year-label { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; color: var(--ink); line-height: 1; }
+  .conf-month { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-top: 4px; }
+  .conf-talk { font-family: 'Cormorant Garamond', serif; font-size: 1.12rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.35; }
+  .conf-event { font-size: 0.84rem; color: var(--accent); margin-bottom: 4px; }
+  .conf-location { font-size: 0.81rem; color: var(--ink-light); }
+  .conf-type-badge { display: inline-block; font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border: 1px solid var(--border); color: var(--ink-light); margin-top: 10px; border-radius: 2px; }
+  .conf-type-badge.invited { border-color: var(--accent); color: var(--accent); background: var(--accent-pale); }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .contact-intro { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; color: var(--ink); line-height: 1.5; margin-bottom: 24px; }
+  .contact-intro em { font-style: italic; color: var(--accent); }
+  .contact-body { font-size: 0.9rem; color: var(--ink-light); line-height: 1.85; margin-bottom: 40px; }
+  .contact-items { display: flex; flex-direction: column; gap: 20px; }
+  .contact-line { display: flex; gap: 14px; align-items: flex-start; }
+  .contact-icon { width: 38px; height: 38px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); border-radius: 3px; }
+  .contact-label { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 2px; }
+  .contact-value { font-size: 0.9rem; color: var(--ink); }
+  .contact-value a { color: var(--accent); text-decoration: none; }
+  .contact-value a:hover { text-decoration: underline; }
+  .contact-form { display: flex; flex-direction: column; gap: 18px; background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 36px; border-radius: 3px; }
+  .form-field { display: flex; flex-direction: column; gap: 7px; }
+  .form-field label { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); }
+  .form-field input, .form-field textarea { background: var(--bg); border: 1px solid var(--border); padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--ink); outline: none; transition: border-color 0.2s; border-radius: 2px; }
+  .form-field input:focus, .form-field textarea:focus { border-color: var(--accent); background: var(--surface); }
+  .form-field textarea { resize: vertical; min-height: 110px; }
+  .btn-send { background: var(--accent); color: #fff; border: none; padding: 13px 30px; font-family: 'DM Sans', sans-serif; font-size: 0.74rem; letter-spacing: 0.13em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; align-self: flex-start; border-radius: 2px; font-weight: 500; }
+  .btn-send:hover { background: var(--accent-dark); }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--border); padding: 26px 80px; display: flex; justify-content: space-between; align-items: center; font-size: 0.74rem; color: var(--ink-light); letter-spacing: 0.04em; background: var(--surface); }
+  .footer-left { display: flex; align-items: center; gap: 8px; }
+  .footer-left::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: block; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { gap: 12px; }
+    .nav-links button { font-size: 0.65rem; letter-spacing: 0.08em; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 48px 24px; }
+    .section-wrap { padding: 56px 24px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+    .scholar-bar { flex-wrap: wrap; }
+    .scholar-stat { min-width: 50%; }
+  }
+  .btn-researchgate { border-left-color: #00ccbb !important; }
+  .btn-researchgate:hover { background: #e6f9f8 !important; border-color: #00ccbb !important; color: #00a396 !important; }
+  .btn-orcid { border-left-color: #a6ce39 !important; }
+  .btn-orcid:hover { background: #f6fae9 !important; border-color: #a6ce39 !important; color: #85a52e !important; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-logo" onclick="showPage('about')">
+    <span class="nav-logo-dot"></span>Narainrit Karuna
+  </button>
+  <ul class="nav-links">
+    <li><button id="nav-about"       class="active"  onclick="showPage('about')">About</button></li>
+    <li><button id="nav-research"                    onclick="showPage('research')">Research</button></li>
+    <li><button id="nav-projects"                    onclick="showPage('projects')">Projects</button></li>
+    <li><button id="nav-conferences"                 onclick="showPage('conferences')">Speaking</button></li>
+    <li><button id="nav-contact"                     onclick="showPage('contact')">Contact</button></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE: ABOUT
+══════════════════════════════════════════ -->
+<div class="page active" id="page-about">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Pharmacist · Researcher · Scientist</div>
+      <h1 class="hero-name"><em>Dr.Narainrit</em><br>Karuna</h1>
+      <p class="hero-title">Researcher in Translational Research &amp; Cardiovascular Pharmacology</p>
+
+      <div class="affiliation-tags">
+        <div class="affiliation-tag">
+          <span class="affil-dot"></span>
+          <strong>Chiang Mai University</strong>&nbsp;· Faculty of Pharmacy, Thailand
+        </div>
+        <div class="affiliation-tag">
+          <span class="affil-dot"></span>
+          <strong>Queen's University Belfast</strong>&nbsp;· Wellcome-Wolfson Institute, UK
+        </div>
+      </div>
+
+      <p class="hero-bio">
+       I am a researcher specialising in cardiovascular pharmacology, proteomics, transcriptomics, and translational science.
+       My work bridges the gap between discovery and clinical application, integrating mechanistic insights with biomarker identification to advance patient care.
+       I am particularly focused on translating molecular findings into clinically actionable strategies.
+       Through this approach, I aim to contribute to the development of precision medicine frameworks that improve patient outcomes and enable more targeted, effective therapies.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num" id="stat-pub-count">24</div>
+          <div class="stat-label">Publications</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num red" id="stat-cite-count">47</div>
+          <div class="stat-label">Citations</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="stat-hindex">5</div>
+          <div class="stat-label">h-index</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-photo-placeholder">
+        <svg width="60" height="60" fill="none" stroke="white" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        <div class="hero-photo">
+  <img src="pics/IMG_3795.jpg" alt="My Photo">
+</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-left">© 2025 Narainrit Karuna</span>
+    <span>Faculty of Pharmacy · Chiang Mai University</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: RESEARCH
+══════════════════════════════════════════ -->
+<div class="page" id="page-research">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-eyebrow">Scholarship</div>
+      <h2 class="section-title">Research &amp;<br>Publications</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="research-areas">
+      <span class="research-tag">Cardiovascular Pharmacology</span>
+      <span class="research-tag">Diabetic Cardiomyopathy</span>
+      <span class="research-tag">Cancer</span>
+      <span class="research-tag">Heart Failure</span>
+      <span class="research-tag">Proteomics &amp; Biomarkers</span>
+      <span class="research-tag">Pharmacogenomics</span>
+      <span class="research-tag">Epigenetics</span>
+      <span class="research-tag">Precision Medicine</span>
+     <span class="research-tag">Biomarkers</span>
+    </div>
+
+    <!-- Google Scholar stats — sourced directly from Google Scholar -->
+    <div class="scholar-bar" id="scholar-bar">
+      <div class="scholar-stat"><div class="scholar-stat-num" id="bar-pubs">24</div><div class="scholar-stat-label">Publications</div></div>
+      <div class="scholar-stat"><div class="scholar-stat-num" id="bar-cites">47</div><div class="scholar-stat-label">Total Citations</div></div>
+      <div class="scholar-stat"><div class="scholar-stat-num" id="bar-h">5</div><div class="scholar-stat-label">h-index</div></div>
+      <div class="scholar-stat"><div class="scholar-stat-num" id="bar-i10">1</div><div class="scholar-stat-label">i10-index</div></div>
+    </div>
+
+    <!-- Google Scholar link row -->
+    <div class="scholar-link-row">
+      <span class="scholar-source-note">Statistics sourced from Google Scholar</span>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a class="btn-scholar"
+           href="https://scholar.google.com/citations?user=GNqb7rYAAAAJ&hl=en"
+           target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          Google Scholar ↗
+        </a>
+        <a class="btn-scholar btn-researchgate"
+           href="https://www.researchgate.net/profile/Narainrit-Karuna"
+           target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#00ccbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          </svg>
+          ResearchGate ↗
+        </a>
+        <a class="btn-scholar btn-orcid"
+           href="https://orcid.org/0000-0002-4050-7469"
+           target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a6ce39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+          ORCID ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="scholar-updated" id="scholar-updated"></div>
+
+  </div>
+
+  <footer>
+    <span class="footer-left">© 2025 Narainrit Karuna</span>
+    <span>Faculty of Pharmacy · Chiang Mai University</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: PROJECTS
+══════════════════════════════════════════ -->
+<div class="page" id="page-projects">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-eyebrow">Work in Progress</div>
+      <h2 class="section-title">Research<br>Projects</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <div class="project-title">Biomarker Discovery for Heart Failure Subtypes</div>
+        <div class="project-desc">Untargeted proteomics to identify blood-based biomarkers distinguishing HFpEF from HFrEF — improving early diagnosis beyond BNP measurements.</div>
+        <span class="project-status done">◎ Completed · Published 2025</span>
+      </div>
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <div class="project-title">Epigenetic Regulation in Diabetic Cardiomyopathy</div>
+        <div class="project-desc">Investigating the role of DNA methylation and histone modifications in the progression of heart failure among diabetic populations.</div>
+        <span class="project-status">◎ Ongoing</span>
+      </div>
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <div class="project-title">Environmental stress and cardiovascular disease</div>
+        <div class="project-desc">Investigating impact of environmental stress in pathogenic cardiovascular disease</div>
+        <span class="project-status">◎ Ongoing</span>
+      </div>
+      <div class="project-card">
+        <div class="project-num">04</div>
+        <div class="project-title">Biomarkers in children with bacterial infection</div>
+        <div class="project-desc">Undercovering novel biomarkers in children with bacterial infection using proteomics-based</div>
+        <span class="project-status">◎ Ongoing</span>
+      </div>
+      <div class="project-card">
+        <div class="project-num">05</div>
+        <div class="project-title">Sacubitril/Valsartan as cardiac radioprotector</div>
+        <div class="project-desc">Bridging mechanistic insights and clinical implementation in radiation-oncology</div>
+        <span class="project-status">◎ Completed · Published 2026</span>
+        </div>
+    <div class="project-card">
+        <div class="project-num">06</div>
+        <div class="project-title">Febrile neutropenia diagnosis and biomakers</div>
+        <div class="project-desc">Reveal novel biomarkers for children with febile neutropenia</div>
+        <span class="project-status">◎ Ongoing</span>
+      </div>
+      <div class="project-card">
+        <div class="project-num">07</div>
+        <img src="pics/cardiateam.jpg" alt="CARDIATEAM project image" class="project-img">
+        <div class="project-title">CARDIATEAM: diabetic cardiomyopathy</div>
+        <div class="project-desc">Investigating diabetic cardiomyopathy with multi-omics approaches</div>
+        <span class="project-status">◎ Ongoing</span>
+    </div>
+        <div class="project-card">
+        <div class="project-num">08</div>
+        <div class="project-title">Micro-nanoplastics in cardiovascular diseases</div>
+        <div class="project-desc">Investigating impact of micro-nanoplastics in cardiovascular diseases</div>
+        <span class="project-status">◎ Ongoing</span>
+  </div>
+        <div class="project-card">
+        <div class="project-num">09</div>
+        <div class="project-title">Epigenetic age and Essence of Chicken</div>
+        <div class="project-desc">RCT: investigating impact of Essence of Chicken on epigenetic age</div>
+        <span class="project-status">◎ Ongoing</span>
+      </div>
+    </div><!-- end .projects-grid -->
+  </div><!-- end .section-wrap -->
+
+  <footer>
+    <span class="footer-left">© 2025 Narainrit Karuna</span>
+    <span>Faculty of Pharmacy · Chiang Mai University</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: CONFERENCES
+══════════════════════════════════════════ -->
+<div class="page" id="page-conferences">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-eyebrow">Speaking</div>
+      <h2 class="section-title">Conferences &amp;<br>Presentations</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="conf-list">
+      <div class="conf-item">
+        <div class="conf-year-wrap">
+          <div class="conf-year-label">2024</div>
+          <div class="conf-month">September</div>
+        </div>
+        <div>
+          <div class="conf-talk">Proteomic signatures of heart failure subtypes</div>
+          <div class="conf-event">British Society for Cardiovascular Research (BSCR) Autumn Meeting</div>
+          <div class="conf-location">London, United Kingdom</div>
+          <span class="conf-type-badge">Oral Presentation</span>
+        </div>
+      </div>
+      <div class="conf-item">
+        <div class="conf-year-wrap">
+          <div class="conf-year-label">2023</div>
+          <div class="conf-month">November</div>
+        </div>
+        <div>
+          <div class="conf-talk">Sacubitril/Valsartan and immunomodulation in DCM</div>
+          <div class="conf-event">American Heart Association (AHA) Scientific Sessions</div>
+          <div class="conf-location">Philadelphia, USA</div>
+          <span class="conf-type-badge">Poster Presentation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-left">© 2025 Narainrit Karuna</span>
+    <span>Faculty of Pharmacy · Chiang Mai University</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: CONTACT
+══════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-eyebrow">Get in Touch</div>
+      <h2 class="section-title">Contact</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="contact-grid">
+      <div>
+        <p class="contact-intro">Let's talk about <em>research, collaboration,</em> or speaking invitations.</p>
+        <p class="contact-body">I welcome inquiries from fellow researchers, students, clinicians, and conference organizers. I aim to respond within 3–5 working days.</p>
+        <div class="contact-items">
+          <div class="contact-line">
+            <div class="contact-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fc929d8e9d95928e9588d297bc9f9189d29d9fd28894">[email&#160;protected]</a></div>
+            </div>
+          </div>
+          <div class="contact-line">
+            <div class="contact-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Address</div>
+              <div class="contact-value">
+                Department of Pharmaceutical Care<br>
+                Faculty of Pharmacy, Chiang Mai University<br>
+                239 Suthep Road, Chiang Mai 50200, Thailand
+              </div>
+            </div>
+          </div>
+          <div class="contact-line">
+            <div class="contact-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="1.5"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Google Scholar</div>
+              <div class="contact-value">
+                <a href="https://scholar.google.com/citations?user=GNqb7rYAAAAJ&hl=en" target="_blank" rel="noopener">
+                  View Profile ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <div class="form-field"><label>Your Name</label><input type="text" placeholder="Full name"></div>
+        <div class="form-field"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+        <div class="form-field"><label>Subject</label><input type="text" placeholder="Research collaboration, speaking inquiry…"></div>
+        <div class="form-field"><label>Message</label><textarea placeholder="Write your message here…"></textarea></div>
+        <button class="btn-send" type="button">Send Message</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-left">© 2025 Narainrit Karuna</span>
+    <span>Faculty of Pharmacy · Chiang Mai University</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Google Scholar data (verified Mar 2026) ──
+var FALLBACK = {
+  meta: {
+    total_pubs:  24,
+    total_cites: 47,
+    h_index:     5,
+    i10_index:   1,
+    last_updated: "2026-03-24"
+  }
+};
+
+var metaData = {};
+
+// ── Navigation — uses <button> elements so no href issues ──
+function showPage(id) {
+  var pages = document.querySelectorAll('.page');
+  var navBtns = document.querySelectorAll('.nav-links button');
+  pages.forEach(function(p) { p.classList.remove('active'); });
+  navBtns.forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── Load publications.json; fall back to hardcoded data ──
+function loadPublications() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'publications.json', true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        if (Array.isArray(data)) {
+          metaData = {
+            total_pubs:  data.length,
+            total_cites: data.reduce(function(s, p) { return s + (p.cited_by || 0); }, 0),
+            h_index:     null,
+            i10_index:   null
+          };
+        } else {
+          metaData = data.meta || {};
+        }
+      } catch(e) {
+        useFallback();
+        return;
+      }
+      updateStats();
+    } else {
+      useFallback();
+    }
+  };
+  xhr.onerror = function() { useFallback(); };
+  xhr.send();
+}
+
+function useFallback() {
+  metaData = FALLBACK.meta;
+  updateStats();
+}
+
+function updateStats() {
+  var pubs   = metaData.total_pubs  != null ? metaData.total_pubs  : '—';
+  var cites  = metaData.total_cites != null ? metaData.total_cites : '—';
+  var hIdx   = metaData.h_index     != null ? metaData.h_index     : '—';
+  var i10Idx = metaData.i10_index   != null ? metaData.i10_index   : '—';
+
+  // Hero stats
+  var elPub = document.getElementById('stat-pub-count');
+  var elCit = document.getElementById('stat-cite-count');
+  var elH   = document.getElementById('stat-hindex');
+  if (elPub) elPub.textContent = pubs;
+  if (elCit) elCit.textContent = cites;
+  if (elH)   elH.textContent   = hIdx;
+
+  // Research bar
+  var bPub = document.getElementById('bar-pubs');
+  var bCit = document.getElementById('bar-cites');
+  var bH   = document.getElementById('bar-h');
+  var bI10 = document.getElementById('bar-i10');
+  if (bPub) bPub.textContent = pubs;
+  if (bCit) bCit.textContent = cites;
+  if (bH)   bH.textContent   = hIdx;
+  if (bI10) bI10.textContent = i10Idx;
+
+  var updatedEl = document.getElementById('scholar-updated');
+  if (updatedEl) {
+    if (metaData.last_updated) {
+      var d = new Date(metaData.last_updated);
+      updatedEl.textContent = 'Data sourced from Google Scholar · Last verified ' +
+        d.toLocaleD
