@@ -176,17 +176,79 @@
   .btn-scholar svg { flex-shrink: 0; }
 
   /* ── PROJECTS ── */
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
-  .project-card {
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 32px 28px; border-radius: 3px; transition: all 0.2s; border-top: 3px solid transparent;
-  }
-  .project-card:hover { border-top-color: var(--accent); box-shadow: 0 4px 20px rgba(0,0,0,0.06); transform: translateY(-2px); }
-  .project-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--border); font-weight: 300; line-height: 1; margin-bottom: 18px; }
-  .project-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
-  .project-desc { font-size: 0.84rem; color: var(--ink-light); line-height: 1.78; margin-bottom: 18px; }
-  .project-status { display: inline-block; font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
-  .project-status.done { color: var(--ink-light); }
+  .projects-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); 
+  gap: 16px; 
+}
+
+.project-card {
+  background: var(--surface); 
+  border: 1px solid var(--border);
+  padding: 32px 28px; 
+  border-radius: 3px; 
+  transition: all 0.2s; 
+  border-top: 3px solid transparent;
+  /* Ensure the card itself doesn't overflow */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover { 
+  border-top-color: var(--accent); 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06); 
+  transform: translateY(-2px); 
+}
+
+/* FIX: Add styling for the project image */
+.project-img {
+  width: 100%;           /* Make image take full width of the card */
+  height: 180px;         /* Set a fixed height for consistency */
+  object-fit: cover;     /* Ensure the image fills the area without distortion */
+  border-radius: 2px;    /* Optional: slight rounding to match card style */
+  margin-bottom: 18px;   /* Space between image and title */
+  display: block;        /* Remove any bottom whitespace */
+}
+
+.project-num { 
+  font-family: 'Cormorant Garamond', serif; 
+  font-size: 1.8rem; 
+  color: var(--border); 
+  font-weight: 300; 
+  line-height: 1; 
+  margin-bottom: 18px; 
+}
+
+.project-title { 
+  font-family: 'Cormorant Garamond', serif; 
+  font-size: 1.15rem; 
+  font-weight: 600; 
+  color: var(--ink); 
+  margin-bottom: 10px; 
+  line-height: 1.3; 
+}
+
+.project-desc { 
+  font-size: 0.84rem; 
+  color: var(--ink-light); 
+  line-height: 1.78; 
+  margin-bottom: 18px; 
+}
+
+.project-status { 
+  display: inline-block; 
+  font-size: 0.67rem; 
+  letter-spacing: 0.1em; 
+  text-transform: uppercase; 
+  color: var(--accent); 
+  font-weight: 500; 
+  margin-top: auto; /* Push status to the bottom if descriptions vary in length */
+}
+
+.project-status.done { 
+  color: var(--ink-light); 
+}
 
   /* ── CONFERENCES ── */
   .conf-list { display: flex; flex-direction: column; }
